@@ -14,7 +14,8 @@ class CustomUserRegistrationForm(forms.ModelForm):
     class Meta:
         model = CustomUserModel
         fields = (
-            'phone', 'name'
+            'phone',
+            'name',
         )
 
     def clean_password2(self):
@@ -44,5 +45,5 @@ class CustomUserChangeFormInAdmin(forms.ModelForm):
         model = CustomUserModel
         fields = (
             'phone', 'name', 'first_name', 'last_name', 'photo',
-            'birthday', 'is_active', 'is_staff', 'is_superuser', 'slug',
+            'birthday', 'verified_code', 'is_active', 'is_staff', 'is_superuser', 'is_verified', 'slug',
         )

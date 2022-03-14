@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
+from django.utils.translation import gettext_lazy as _
 
 from users.forms import CustomUserChangeFormInAdmin, CustomUserRegistrationForm
 from users.models import CustomUserModel
@@ -12,18 +13,22 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = (
         'phone', 'name', 'get_full_name', 'birthday', 'photo',
-        'registration_date', 'is_active', 'is_staff', 'is_superuser', 'slug'
+        'registration_date', 'is_active', 'is_staff', 'is_superuser', 'is_verified', 'slug'
     )
     list_display_links = (
-        'phone', 'name', 'slug'
+        'phone',
+        'name',
+        'slug',
     )
     list_filter = (
         'is_staff',
+        'is_verified',
     )
     fieldsets = (
         (None, {'fields': ('first_name', 'last_name', 'birthday', 'photo')}),
-        ('Personal info', {'fields': ('phone', 'name', 'slug')}),
-        ('Permission', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        (_('Personal info'), {'fields': ('phone', 'name', 'slug')}),
+        (_('Permission'), {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        (_('Verification'), {'fields': ('verified_code', 'is_verified')}),
     )
     add_fieldsets = (
         (None, {
@@ -32,7 +37,8 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
     search_fields = (
-        'phone', 'name',
+        'phone',
+        'name',
     )
     ordering = (
         'name',
