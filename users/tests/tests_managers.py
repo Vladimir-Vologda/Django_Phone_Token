@@ -23,6 +23,7 @@ class TestCustomUserMadel(TestCase):
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_verified)
 
         with self.assertRaises(TypeError):
             User.objects.create_user(
@@ -57,6 +58,7 @@ class TestCustomUserMadel(TestCase):
         self.assertTrue(super_user.is_active)
         self.assertTrue(super_user.is_staff)
         self.assertTrue(super_user.is_superuser)
+        self.assertFalse(super_user.is_verified)
 
         with self.assertRaises(ValueError):
             User.objects.create_superuser(

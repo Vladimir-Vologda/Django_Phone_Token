@@ -58,6 +58,7 @@ class CustomUserModel(AbstractBaseUser, PermissionsMixin):
             self.slug = slugify(self.name)
         return super(CustomUserModel, self).save(**kwargs)
 
+    @property
     def get_full_name(self):
         #   Функция представления полного имени
         return f'{self.first_name} {self.last_name}'
