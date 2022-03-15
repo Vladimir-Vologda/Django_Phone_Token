@@ -1,9 +1,11 @@
+import requests
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from users.models import CustomUserModel
+from users.sendler import send_code
 
 
 class CustomUserRegistrationForm(forms.ModelForm):
@@ -29,6 +31,7 @@ class CustomUserRegistrationForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super(CustomUserRegistrationForm, self).save(commit=False)
+        user.verified_code = send_code(self.data.get('phone'))
         user.set_password(self.cleaned_data['password1'])
 
         if commit:
