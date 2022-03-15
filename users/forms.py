@@ -1,4 +1,3 @@
-import requests
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
@@ -49,4 +48,14 @@ class CustomUserChangeFormInAdmin(forms.ModelForm):
         fields = (
             'phone', 'name', 'first_name', 'last_name', 'photo',
             'birthday', 'verified_code', 'is_active', 'is_staff', 'is_superuser', 'is_verified', 'slug',
+        )
+
+
+class UserVerificationForm(forms.ModelForm):
+
+    class Meta:
+        model = CustomUserModel
+        fields = (
+            'phone',
+            'verified_code',
         )

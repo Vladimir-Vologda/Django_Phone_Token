@@ -13,6 +13,7 @@ Pillow = "^9.0.1"
 psycopg2-binary = "^2.9.3"
 django-environ = "^0.8.1"
 requests = "^2.27.1"
+self = "^2020.12.3"
 
 [tool.poetry.dev-dependencies]
 
