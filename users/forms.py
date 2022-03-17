@@ -1,10 +1,14 @@
 from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from users.models import CustomUserModel
 from users.sendler import send_code
+
+
+UserModel = get_user_model()
 
 
 class CustomUserRegistrationForm(forms.ModelForm):
@@ -59,3 +63,22 @@ class UserVerificationForm(forms.ModelForm):
             'phone',
             'verified_code',
         )
+
+
+class CustomAuthUserForm(AuthenticationForm):
+
+    error_messages = {
+        "invalid_login": _(
+            "Please enter a correct %(username)s and password. Note that both "
+            "fields may be case-sensitive."
+        ),
+        "unverified": _("This account is not verified."),
+    }
+
+    def confirm_login_allowed(self, user):
+
+        if not user.is_verified:
+            raise ValidationError(
+                self.error_messages["unverified"],
+                code="unverified",
+            )
